@@ -1,0 +1,16 @@
+1. Create new database - menu
+2. Copy .env.example to .env
+3. Set DB connection in .env
+4. Необходимо, чтобы расширение pdo_mysql  было включено в  конфигурацию PHP php.ini , ( чтобы проверить путь к файлу
+нужно, в терминале  вести    php --ini  )
+5. composer install
+6. composer migrate
+7.Чтобы сделать импорт данных из categories.json
+нужно зайти в папку app
+Выполнить команду для запуска скрипта
+  php MenuImporter.php
+8. чтобы сделать эспорт
+нужно зайти в папку app
+Выполнить команду для запуска скрипта
+  php MenuExporter.php
+файлы будут расположены в папке data/

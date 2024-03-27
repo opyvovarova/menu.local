@@ -1,0 +1,16 @@
+{
+  "require": {
+    "vlucas/phpdotenv": "^5.6",
+    "larapack/dd": "^1.1",
+    "robmorgan/phinx": "^0.16.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit --testdox tests",
+    "migrate": "vendor/bin/phinx migrate",
+    "make:migration": "vendor/bin/phinx create",
+    "seed": "vendor/bin/phinx seed:run"
+  }
+}
