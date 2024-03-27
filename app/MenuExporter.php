@@ -14,6 +14,7 @@ class CategoryExporter
        $this->categoryService = $categoryService;
     }
 
+    //экспорт категории первого уровня вложенности в текстовый файл.
     public function exportRootCategoriesToText($filename)
     {
         $rootCategories = $this->categoryService->getRootCategories();
@@ -30,6 +31,7 @@ class CategoryExporter
         fclose($file);
     }
 
+    //экспорт всех категориЙ в текстовый файл с указанием уровня вложенности и URL.
     public function exportAllCategoriesToText($filename)
     {
         $categories = $this->categoryService->getAllCategories();
@@ -39,10 +41,26 @@ class CategoryExporter
         foreach ($categories as $category)
         {
             $indentation = str_repeat(' ', $category['depth'] * 2);
-            fwrite($file, $indentation . $category['name'] . PHP_EOL);
+            $url = $this->generateCategoryUrl($category);
+
+            $line = $indentation . $category['name'] . ' ' . $url . PHP_EOL;
+            fwrite($file, $line);
         }
 
         fclose($file);
+    }
+
+    //генерирует URL для категории, основываясь на id
+    private function generateCategoryUrl($category)
+    {
+        $url = '';
+        $path = $this->categoryService->getCategoryPath($category['id']);
+
+        if (!empty($path)) {
+            $url = implode('/', array_column($path, 'alias'));
+        }
+
+        return '/' . rtrim($url, '/');
     }
 
 }

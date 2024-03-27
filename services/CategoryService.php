@@ -47,6 +47,34 @@ class CategoryService
 
     }
 
+    
+    //Метод, который извлекает категорию из базы данных id
+    public function getCategoryById($categoryId)
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT * FROM categories WHERE id = :categoryId
+        ");
+        $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    //возвращает путь категории в виде массива категорий, 
+    public function getCategoryPath($categoryId)
+    {
+        $path = [];
+        $category = $this->getCategoryById($categoryId);
+
+        while ($category) {
+            $path[] = $category;
+            $category = $this->getCategoryById($category['parent_id']);
+        }
+
+        return array_reverse($path);
+    }
+
+
     //Для Получения всез дочерних категорий для родителя
     private function getChildCategories($parentId, $depth)
     {
